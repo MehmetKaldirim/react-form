@@ -3,12 +3,13 @@ export default function Login() {
   const email = useRef();
   const password = useRef();
 
-  function handleSubmit() {
+  function handleSubmit(event) {
     event.preventDefault();
     const enteredEmail = email.current.value;
     const enteredPassword = password.current.value;
     console.log("Entered values: " + enteredEmail + " - " + enteredPassword);
-    //email.current.value=''  //reset is not good
+    //email.current.value=''  //reset is not good in ref, we change the dom here so not recommended
+    event.target.reset();
   }
 
   return (

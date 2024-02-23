@@ -9,7 +9,8 @@ export default function Signup() {
     data.acquisition = acquisitionChannel;
 
     console.log(data);
-    //email.current.value=''  //reset is not good
+
+    event.target.reset();
   }
   return (
     <form onSubmit={handleSubmit}>
