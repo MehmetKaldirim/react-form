@@ -8,8 +8,13 @@ export default function Login() {
     password: "",
   });
 
-  const emailIsInvalid =
-    enteredValues.email !== "" && !enteredValues.email.includes("@");
+  const [didEdit, setDidEdit] = useState({
+    email: false,
+    password: false,
+  });
+  const emailIsInvalid = didEdit.email && !enteredValues.email.includes("@");
+  const passwordIsInvalid =
+    didEdit.password && enteredValues.password.length < 5;
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -18,12 +23,27 @@ export default function Login() {
       email: "",
       password: "",
     });
+    setDidEdit({
+      email: false,
+      password: false,
+    });
   }
 
   function handleInputChange(identifier, value) {
     setEnteredValues((prevValues) => ({
       ...prevValues,
       [identifier]: value,
+    }));
+    setDidEdit((prevEdit) => ({
+      ...prevEdit,
+      [identifier]: false,
+    }));
+  }
+
+  function handleInputBlur(identifier) {
+    setDidEdit((prevEdit) => ({
+      ...prevEdit,
+      [identifier]: true,
     }));
   }
 
@@ -45,6 +65,7 @@ export default function Login() {
             id="email"
             type="email"
             name="email"
+            onBlur={() => handleInputBlur("email")}
             onChange={(event) => handleInputChange("email", event.target.value)}
             value={enteredValues.email}
           />
@@ -59,11 +80,16 @@ export default function Login() {
             id="password"
             type="password"
             name="password"
+            onBlur={() => handleInputBlur("password")}
             onChange={(event) =>
               handleInputChange("password", event.target.value)
             }
             value={enteredValues.password}
           />
+
+          <div className="control-error">
+            {passwordIsInvalid && <p>Please enter at least 5 characters</p>}
+          </div>
         </div>
       </div>
 
