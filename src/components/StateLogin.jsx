@@ -6,14 +6,18 @@ export default function Login() {
     value: emailValue,
     handleInputChange: handleEmailChange,
     handleInputBlur: handleEmailBlur,
+    resetInput: resetEmail,
     hasError: emailHasError,
+    resetError: emailResetError,
   } = useInput("", (value) => isEmail(value) && isNotEmpty(value));
 
   const {
     value: passwordValue,
     handleInputChange: handlePasswordChange,
     handleInputBlur: handlePasswordBlur,
+    resetInput: resetPassword,
     hasError: passwordHasError,
+    resetError: passwordResetError,
   } = useInput("", (value) => hasMinLength(value, 5) && isNotEmpty(value));
 
   function handleSubmit(event) {
@@ -22,6 +26,10 @@ export default function Login() {
       return;
     }
     console.log(emailValue, passwordValue);
+    resetEmail();
+    resetPassword();
+    emailResetError();
+    passwordResetError();
   }
 
   return (
